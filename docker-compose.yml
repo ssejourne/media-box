@@ -1,0 +1,18 @@
+---
+services:
+# Radarr
+# https://hub.docker.com/r/linuxserver/radarr
+  radarr:
+    image: lscr.io/linuxserver/radarr:latest
+    container_name: radarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /path/to/radarr/data:/config
+      - /mnt/Medias/movies:/movies #optional
+      - /mnt/Medias/complete/movies:/downloads #optional
+    ports:
+      - 7878:7878
+    restart: unless-stopped
