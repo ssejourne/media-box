@@ -10,9 +10,11 @@ services:
       - PGID=1000
       - TZ=Etc/UTC
     volumes:
-      - /path/to/radarr/data:/config
+      - radarr-config:/config
       - /mnt/Medias/movies:/movies #optional
       - /mnt/Medias/complete/movies:/downloads #optional
     ports:
       - 7878:7878
     restart: unless-stopped
+    volumes:
+      radarr-config:
