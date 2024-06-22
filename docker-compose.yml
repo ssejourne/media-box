@@ -8,7 +8,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=America/Toronto
     volumes:
       - radarr-config:/config
       - /mnt/Medias/movies:/movies #optional
@@ -25,14 +25,32 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=America/Toronto
     volumes:
       - prowlarr-config:/config
     ports:
       - 9696:9696
     restart: unless-stopped
 
+# sabnzbd
+#
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Toronto
+    volumes:
+      - sabnzbd-config:/config
+      - /mnt/Medias/complete:/downloads #optional
+      - /mnt/Medias/incomplete:/incomplete-downloads #optional
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+
 # Volumes declaration
 volumes:
   radarr-config:
   prowlarr-config:
+  sabnzbd-config:
