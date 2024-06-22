@@ -17,5 +17,22 @@ services:
       - 7878:7878
     restart: unless-stopped
 
+# Prowlarr
+#
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - prowlarr-config:/config
+    ports:
+      - 9696:9696
+    restart: unless-stopped
+
+# Volumes declaration
 volumes:
   radarr-config:
+  prowlarr-config:
