@@ -15,6 +15,9 @@ services:
       - /mnt/Medias/complete:/downloads #optional
     ports:
       - 7878:7878
+    depends_on:
+      - prowlarr
+      - sabnzbd
     restart: unless-stopped
 
 # Sonarr
@@ -32,21 +35,9 @@ services:
       - /mnt/Medias/complete:/downloads #optional
     ports:
       - 8989:8989
-    restart: unless-stopped
-
-# Prowlarr
-#
-  prowlarr:
-    image: lscr.io/linuxserver/prowlarr:latest
-    container_name: prowlarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=America/Toronto
-    volumes:
-      - prowlarr-config:/config
-    ports:
-      - 9696:9696
+    depends_on:
+      - prowlarr
+      - sabnzbd
     restart: unless-stopped
 
 # readarr
@@ -64,23 +55,26 @@ services:
       - /mnt/Medias/complete:/downloads #optional
     ports:
       - 8787:8787
+    depends_on:
+      - prowlarr
+      - sabnzbd
     restart: unless-stopped
     
-# sabnzbd
+# Prowlarr
 #
-  sabnzbd:
-    image: lscr.io/linuxserver/sabnzbd:latest
-    container_name: sabnzbd
+  prowlarr:
+    image: lscr.io/linuxserver/prowlarr:latest
+    container_name: prowlarr
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/Toronto
     volumes:
-      - sabnzbd-config:/config
-      - /mnt/Medias/complete:/downloads #optional
-      - /mnt/Medias/incomplete:/incomplete-downloads #optional
+      - prowlarr-config:/config
     ports:
-      - 8080:8080
+      - 9696:9696
+    depends_on:
+      - flaresolver
     restart: unless-stopped
 
 # flaresolverr
@@ -97,6 +91,23 @@ services:
     ports:
       - "${PORT:-8191}:8191"
     restart: unless-stopped 
+
+# sabnzbd
+#
+  sabnzbd:
+    image: lscr.io/linuxserver/sabnzbd:latest
+    container_name: sabnzbd
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Toronto
+    volumes:
+      - sabnzbd-config:/config
+      - /mnt/Medias/complete:/downloads #optional
+      - /mnt/Medias/incomplete:/incomplete-downloads #optional
+    ports:
+      - 8080:8080
+    restart: unless-stopped
 
 # Volumes declaration
 volumes:
