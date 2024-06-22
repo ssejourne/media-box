@@ -12,9 +12,26 @@ services:
     volumes:
       - radarr-config:/config
       - /mnt/Medias/movies:/movies #optional
-      - /mnt/Medias/complete/movies:/downloads #optional
+      - /mnt/Medias/complete:/downloads #optional
     ports:
       - 7878:7878
+    restart: unless-stopped
+
+# Sonarr
+#
+  sonarr:
+    image: lscr.io/linuxserver/sonarr:latest
+    container_name: sonarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=America/Toronto
+    volumes:
+      - sonarr-config:/config
+      - /mnt/Medias/tvshows:/tv #optional
+      - /mnt/Medias/complete:/downloads #optional
+    ports:
+      - 8989:8989
     restart: unless-stopped
 
 # Prowlarr
@@ -52,5 +69,6 @@ services:
 # Volumes declaration
 volumes:
   radarr-config:
+  sonarr-config:
   prowlarr-config:
   sabnzbd-config:
