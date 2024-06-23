@@ -32,7 +32,7 @@ services:
     volumes:
       - sonarr-config:/config
       - /mnt/Medias/tvshows:/tv #optional
-      - /mnt/Medias/complete/tv:/downloads #optional
+      - /mnt/Medias/complete:/downloads #optional
     ports:
       - 8989:8989
     depends_on:
